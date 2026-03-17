@@ -11,13 +11,17 @@ import com.common.Constant;
 import com.elements.DataTablePage;
 import com.elements.HomePage;
 
-public class Main {
+import components.BaseTest;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Main extends BaseTest {
     HomePage homePage;
     SoftAssert softAssert;
     DataTablePage dataTablePage;
 
     @BeforeMethod()
     public void beforeMethod() {
+        WebDriverManager.chromedriver().setup();
         System.out.println("Pre-condition");
         ChromeOptions options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
