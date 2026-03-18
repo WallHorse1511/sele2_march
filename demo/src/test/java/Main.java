@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -40,6 +43,12 @@ public class Main extends BaseTest {
                 "Column is not sorted in ascending order");
         softAssert.assertTrue(dataTablePage.isColumnSorted(false),
                 "Column is not sorted in ascending order");
+    }
+
+    @Test(description = "demo")
+    public void demo() throws IOException {
+        List<HashMap<String, String>> demoData = getDataFromJson(properties.getProperty("demodatalocation"));
+        System.out.println(demoData);
     }
 
     @AfterMethod
