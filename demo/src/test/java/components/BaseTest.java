@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -83,5 +85,12 @@ public class BaseTest {
         return objectMapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {
         });
 
+    }
+
+    public String getScreenShot(String testCaseName, WebDriver driver) throws IOException {
+        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        String destinationFile = System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png";
+        FileUtils.copyFile(source, new File(destinationFile));
+        return destinationFile;
     }
 }
