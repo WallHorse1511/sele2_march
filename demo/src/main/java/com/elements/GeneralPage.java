@@ -4,7 +4,9 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,6 +14,14 @@ import static org.openqa.selenium.support.locators.RelativeLocator.*;
 import com.common.Constant;
 
 public class GeneralPage {
+    // WebDriver driver;
+
+    // GeneralPage(WebDriver driver) {
+    // this.driver = driver;
+    // PageFactory.initElements(driver, this);
+
+    // }
+
     // Locators -> will move to homepage later
     private final By listTabs = By.xpath("//div[@id='content']//ul//li//a");
 

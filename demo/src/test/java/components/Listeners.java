@@ -10,6 +10,7 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.common.Constant;
 import com.resources.ExtentReporterNG;
 
 public class Listeners extends BaseTest implements ITestListener {
@@ -21,13 +22,20 @@ public class Listeners extends BaseTest implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         extentTestThreadLocal.get().log(Status.FAIL, "Test case failed");
+        Throwable throwable = result.getThrowable();
+        if (throwable != null) {
+            extentTestThreadLocal.get().log(Status.FAIL, "Failure details: " + throwable);
+        }
         try {
-            driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
+            // WebDriver driver = (WebDriver)
+            // result.getTestClass().getRealClass().getField("driver")
+            // .get(result.getInstance());
+            WebDriver driver = Constant.WEBDRIVER;
             String filePath = getScreenShot(result.getMethod().getMethodName(), driver);
             extentTestThreadLocal.get().addScreenCaptureFromPath(filePath,
                     getScreenShot(result.getMethod().getMethodName(), driver));
         } catch (Exception e) {
-
+            extentTestThreadLocal.get().log(Status.FAIL, "Screenshot capture failed: " + e.getMessage());
             e.printStackTrace();
         }
 

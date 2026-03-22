@@ -18,6 +18,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import com.common.Constant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,14 +26,14 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
     WebDriver driver;
-    protected Properties properties;
+    // protected Properties properties;
 
     public void initial() {
         try {
             FileInputStream fileInputStream = new FileInputStream(
                     System.getProperty("user.dir") + "\\src\\main\\java\\com\\resources\\GlobalData.properties");
-            properties = new Properties();
-            properties.load(fileInputStream);
+            // properties = new Properties();
+            Constant.properties.load(fileInputStream);
             driver = initDriver();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +41,9 @@ public class BaseTest {
     }
 
     public WebDriver initDriver() {
-        String browser = properties.getProperty("browser");
+        String browser = System.getProperty("browser") != null ? System.getProperty("browser")
+                : Constant.properties.getProperty("browser");
+        // String browser = Constant.properties.getProperty("browser");
         switch (browser.toLowerCase()) {
             case "chrome":
                 // Khởi tạo ChromeDriver
@@ -65,18 +68,18 @@ public class BaseTest {
         return driver;
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void lanunchApplication() {
-        initial();
-        driver.navigate().to(properties.getProperty("url"));
-    }
+    // @BeforeMethod(alwaysRun = true)
+    // public void lanunchApplication() {
+    // initial();
+    // driver.navigate().to(properties.getProperty("url"));
+    // }
 
-    @AfterMethod(alwaysRun = true)
-    public void closeApplication() {
-        if (driver != null) {
-            driver.close();
-        }
-    }
+    // @AfterMethod(alwaysRun = true)
+    // public void closeApplication() {
+    // if (driver != null) {
+    // driver.quit();
+    // }
+    // }
 
     public List<HashMap<String, String>> getDataFromJson(String filePath) throws IOException {
         String jsonContent = FileUtils.readFileToString(new File(System.getProperty("user.dir") + "\\" + filePath),
