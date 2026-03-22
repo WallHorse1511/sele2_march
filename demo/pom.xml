@@ -52,6 +52,9 @@
         </dependency>
     </dependencies>
     
+    <profiles>
+    <profile>
+        <id>testdemo</id>
     <build>
     <plugins>
         <plugin>
@@ -66,5 +69,7 @@
         </plugin>
     </plugins>
     </build>
+    </profile>
+    </profiles>
 
 </project>

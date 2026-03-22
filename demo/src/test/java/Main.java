@@ -18,24 +18,19 @@ import components.BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Main extends BaseTest {
-    HomePage homePage;
     SoftAssert softAssert;
     DataTablePage dataTablePage;
+    HomePage homePage;
 
     @BeforeMethod()
     public void beforeMethod() {
-        WebDriverManager.chromedriver().setup();
         System.out.println("Pre-condition");
-        ChromeOptions options = new ChromeOptions();
-        options.setAcceptInsecureCerts(true);
-        Constant.WEBDRIVER = new ChromeDriver(options);
-        Constant.WEBDRIVER.manage().window().maximize();
         homePage = new HomePage();
         homePage.open();
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TC01")
+    @Test(description = "TC01", retryAnalyzer = components.Retry.class)
     public void TC01() {
         dataTablePage = homePage.goToSortableDataTables();
         dataTablePage.clickHeaderByIndex(1);
@@ -47,7 +42,7 @@ public class Main extends BaseTest {
 
     @Test(description = "demo")
     public void demo() throws IOException {
-        List<HashMap<String, String>> demoData = getDataFromJson(properties.getProperty("demodatalocation"));
+        List<HashMap<String, String>> demoData = getDataFromJson(Constant.properties.getProperty("demodatalocation"));
         System.out.println(demoData);
     }
 

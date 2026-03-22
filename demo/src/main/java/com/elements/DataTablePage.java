@@ -5,11 +5,21 @@ import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v136.page.Page;
+import org.openqa.selenium.support.PageFactory;
 
 import com.common.Constant;
 
 public class DataTablePage extends GeneralPage {
+    // WebDriver driver;
+
+    // DataTablePage(WebDriver driver) {
+    // super(driver);
+    // PageFactory.initElements(driver, this);
+    // }
+
     private final By listHeaderColumns = By.xpath("//table[@id='table1']//th//span");
     private final String columnCells = "//table[@id='table1']//tbody//tr[%d]";
 
