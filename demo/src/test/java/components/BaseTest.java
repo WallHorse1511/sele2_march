@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -66,6 +71,33 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         return driver;
+    }
+
+    public Object[][] getDataExcel(String filePath, String sheetName) throws IOException {
+        Object[][] data = null;
+        DataFormatter formatter = new DataFormatter();
+        // fileInputStream argument
+        FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + filePath);
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
+        int sheets = workbook.getNumberOfSheets();
+        for (int i = 0; i < sheets; i++) {
+            if (workbook.getSheetName(i).equalsIgnoreCase(sheetName)) {
+                XSSFSheet sheet = workbook.getSheetAt(i);
+                // Identify Testcases coloum by scanning the entire 1st row
+                XSSFRow row = sheet.getRow(0);
+                int rowCount = sheet.getPhysicalNumberOfRows();
+                int columnCount = row.getLastCellNum();
+                data = new Object[rowCount - 1][columnCount];
+                for (int j = 0; j < rowCount - 1; j++) {
+                    row = sheet.getRow(j + 1);
+                    for (int k = 0; k < columnCount; k++) {
+                        XSSFCell c = row.getCell(k);
+                        data[j][k] = formatter.formatCellValue(c);
+                    }
+                }
+            }
+        }
+        return data;
     }
 
     // @BeforeMethod(alwaysRun = true)
